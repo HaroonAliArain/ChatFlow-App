@@ -1,0 +1,5 @@
+node_modules
+.env
+.env.*
+*.log
+Chat_App_SRS_Document.docx

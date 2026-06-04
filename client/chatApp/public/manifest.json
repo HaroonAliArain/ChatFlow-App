@@ -1,0 +1,17 @@
+{
+  "short_name": "ChatFlow",
+  "name": "ChatFlow Chat App",
+  "icons": [
+    {
+      "src": "/chatflow-logo.svg",
+      "type": "image/svg+xml",
+      "sizes": "any",
+      "purpose": "any maskable"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#ffffff",
+  "theme_color": "#5B6EF5",
+  "display": "standalone",
+  "orientation": "portrait"
+}

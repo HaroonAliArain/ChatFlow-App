@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="none">
+  <defs>
+    <linearGradient id="bubbleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6C83FF"/>
+      <stop offset="100%" stop-color="#4F6BF6"/>
+    </linearGradient>
+    <linearGradient id="smallBubbleGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8B9FFF"/>
+      <stop offset="100%" stop-color="#6C83FF"/>
+    </linearGradient>
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#A5B4FC"/>
+      <stop offset="100%" stop-color="#818CF8"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="130%" height="130%">
+      <feDropShadow dx="0" dy="4" stdDeviation="8" flood-color="#4F6BF6" flood-opacity="0.3"/>
+    </filter>
+  </defs>
+
+  <!-- Main chat bubble (larger, left-aligned) -->
+  <g filter="url(#shadow)">
+    <path d="M80 100 C80 68, 106 44, 138 44 L340 44 C372 44, 398 68, 398 100 L398 248 C398 280, 372 304, 340 304 L180 304 L120 356 L120 304 L138 304 C106 304, 80 280, 80 248 Z" 
+          fill="url(#bubbleGrad)" />
+  </g>
+
+  <!-- Three dots in main bubble -->
+  <circle cx="185" cy="174" r="18" fill="rgba(255,255,255,0.95)"/>
+  <circle cx="239" cy="174" r="18" fill="rgba(255,255,255,0.95)"/>
+  <circle cx="293" cy="174" r="18" fill="rgba(255,255,255,0.95)"/>
+
+  <!-- Secondary chat bubble (smaller, right-aligned, overlapping) -->
+  <g opacity="0.9">
+    <path d="M180 230 C180 204, 200 184, 226 184 L390 184 C416 184, 436 204, 436 230 L436 350 C436 376, 416 396, 390 396 L436 396 L436 440 L370 396 L226 396 C200 396, 180 376, 180 350 Z"
+          fill="url(#smallBubbleGrad)" />
+  </g>
+
+  <!-- Flow lines in secondary bubble representing message text -->
+  <rect x="218" y="256" width="140" height="10" rx="5" fill="rgba(255,255,255,0.8)"/>
+  <rect x="218" y="280" width="105" height="10" rx="5" fill="rgba(255,255,255,0.6)"/>
+  <rect x="218" y="304" width="120" height="10" rx="5" fill="rgba(255,255,255,0.5)"/>
+
+  <!-- Small decorative dot cluster (top right) -->
+  <circle cx="420" cy="80" r="6" fill="#A5B4FC" opacity="0.5"/>
+  <circle cx="444" cy="96" r="4" fill="#818CF8" opacity="0.4"/>
+  <circle cx="410" cy="108" r="3" fill="#6C83FF" opacity="0.3"/>
+</svg>
