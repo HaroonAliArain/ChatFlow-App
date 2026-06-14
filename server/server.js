@@ -29,7 +29,7 @@ app.use(
     cors({
         origin: [
             "http://localhost:5173",
-            "https://chatflow-app-dtbl.onrender.com",
+            "https://chatflow-app-frontend.onrender.com",
         ],
         credentials: true,
     })
