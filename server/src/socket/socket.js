@@ -10,7 +10,7 @@ export const userSocketMap = new Map();
 export const initializeSocket = (server) => {
     const io = new Server(server, {
         cors: {
-            origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:5175"],
+            origin: "https://chatflow-app-frontend.onrender.com",
             credentials: true,
         },
     });
