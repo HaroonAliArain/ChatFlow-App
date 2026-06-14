@@ -25,17 +25,15 @@ export const io = initializeSocket(server);       // Initialize Socket.IO with t
 
 app.use(express.json());   // Middleware
 app.use(express.static("public"));
-app.use(cors({
-    origin: (origin, callback) => {
-        // Dynamically allow all local origins for seamless development on any local port
-        if (!origin || origin.startsWith("http://localhost:") || origin === "null") {
-            callback(null, true);
-        } else {
-            callback(new Error("Not allowed by CORS"));
-        }
-    },
-    credentials: true, 
-}));
+app.use(
+    cors({
+        origin: [
+            "http://localhost:5173",
+            "https://chatflow-app-dtbl.onrender.com",
+        ],
+        credentials: true,
+    })
+);
 
 app.get("/", (req, res) => {
     res.send("Chat App Backend is Running...")   // Test route
