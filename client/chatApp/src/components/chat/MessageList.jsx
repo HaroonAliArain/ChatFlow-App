@@ -64,9 +64,12 @@ const MessageList = () => {
   // Instant scroll on initial open / loading finished
   useEffect(() => {
     if (!loading && messages.length > 0) {
-      messagesEndRef.current?.scrollIntoView({ behavior: "instant" });
+      const timer = setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "instant" });
+      }, 50);
       prevMessagesCount.current = messages.length;
       setNewMessagesCount(0);
+      return () => clearTimeout(timer);
     }
   }, [loading, selectedChat?._id]);
 
@@ -80,8 +83,11 @@ const MessageList = () => {
       if (showScrollBtn && isIncoming) {
         setNewMessagesCount((prev) => prev + 1);
       } else {
-        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        const timer = setTimeout(() => {
+          messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        }, 50);
         setNewMessagesCount(0);
+        return () => clearTimeout(timer);
       }
     }
     prevMessagesCount.current = messages.length;
