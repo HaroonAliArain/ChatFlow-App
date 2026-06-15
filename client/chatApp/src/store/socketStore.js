@@ -32,24 +32,28 @@ export const useSocketStore = create((set, get) => ({
 
     // ── Receive message (from REST-based sends) ──
     socket.on(SOCKET_EVENTS.RECEIVE_MESSAGE_REST, (message) => {
+      console.log("📩 Socket received REST message event (receiveMessage):", message);
       const { addMessage } = useMessageStore.getState();
       const { selectedChat, updateLastMessage } = useChatStore.getState();
 
+      const convId = message.conversation || message.conversationId;
+
       // Only add to message list if this conversation is currently open
-      if (selectedChat?._id === message.conversation) {
+      if (selectedChat?._id === convId) {
         addMessage(message);
       } else {
         // Increment unread count for non-active chats
-        useChatStore.getState().incrementUnreadCount(message.conversation);
+        useChatStore.getState().incrementUnreadCount(convId);
         get().playNotificationSound();
       }
 
       // Update sidebar last message
-      updateLastMessage(message.conversation, message);
+      updateLastMessage(convId, message);
     });
 
     // ── Receive message (from socket-based sends) ──
     socket.on(SOCKET_EVENTS.RECEIVE_MESSAGE, (message) => {
+      console.log("📩 Socket received Socket message event (receive_message):", message);
       const { addMessage } = useMessageStore.getState();
       const { selectedChat, updateLastMessage } = useChatStore.getState();
 
@@ -158,15 +162,17 @@ export const useSocketStore = create((set, get) => ({
 
     // ── Connection events ──
     socket.on("connect", () => {
+      console.log("🟢 Socket connected successfully! ID:", socket.id);
       set({ isConnected: true });
     });
 
-    socket.on("disconnect", () => {
+    socket.on("disconnect", (reason) => {
+      console.log("🔴 Socket disconnected. Reason:", reason);
       set({ isConnected: false });
     });
 
     socket.on("connect_error", (err) => {
-      console.log("Socket connection error:", err.message);
+      console.log("❌ Socket connection error:", err.message);
       set({ isConnected: false });
     });
   },

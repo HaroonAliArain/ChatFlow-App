@@ -8,6 +8,7 @@ const SOCKET_URL = apiUrl.replace(/\/api\/?$/, "");
 const socket = io(SOCKET_URL, {
   autoConnect: false, // IMPORTANT (we control login connection)
   withCredentials: true,
+  transports: ["websocket"],
 });
 
 export default socket;
