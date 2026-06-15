@@ -148,6 +148,19 @@ export const useSocketStore = create((set, get) => ({
       get().playNotificationSound();
     });
 
+    // ── Message reacted (real-time) ──
+    socket.on(SOCKET_EVENTS.MESSAGE_REACTED, ({ messageId, reactions }) => {
+      console.log("📩 Socket received message_reacted:", { messageId, reactions });
+      const { messages, updateMessage } = useMessageStore.getState();
+      const existingMsg = messages.find((m) => m._id === messageId);
+      if (existingMsg) {
+        updateMessage({
+          ...existingMsg,
+          reactions,
+        });
+      }
+    });
+
     // ── Sync messages on reconnect ──
     socket.on(SOCKET_EVENTS.SYNC_MESSAGES, ({ messages }) => {
       const { addMessage } = useMessageStore.getState();

@@ -24,6 +24,7 @@ export const SOCKET_EVENTS = {
   MESSAGE_DELETED: "message_deleted",
   MESSAGE_EDITED: "message_edited",
   NEW_NOTIFICATION: "new_notification",
+  MESSAGE_REACTED: "message_reacted",
 };
 
 // Message status
