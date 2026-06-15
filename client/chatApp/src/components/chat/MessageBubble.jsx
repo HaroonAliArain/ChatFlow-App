@@ -120,7 +120,7 @@ const MessageBubble = ({ message }) => {
   const handleDownload = (url, name) => {
     try {
       const fixedUrl = fixCloudinaryUrl(url, name);
-      const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
+      const baseUrl = import.meta.env.VITE_API_URL || "https://chatflow-app-7u34.onrender.com/api";
       const apiBase = baseUrl.endsWith("/api") ? baseUrl : `${baseUrl}/api`;
       const downloadUrl = `${apiBase}/media/download?url=${encodeURIComponent(fixedUrl)}&filename=${encodeURIComponent(name)}`;
       window.open(downloadUrl, "_blank");
