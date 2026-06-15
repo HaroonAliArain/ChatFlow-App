@@ -42,6 +42,7 @@ const tryAutoStartRedis = () => {
 const createRedisClient = () => {
   const client = createClient({
     url: process.env.REDIS_URL || "redis://localhost:6379",
+    disableOfflineQueue: true,
     socket: {
       connectTimeout: 5000,
       reconnectStrategy: (retries) => {
@@ -104,9 +105,9 @@ const connectRedis = async () => {
   }
 };
 
-// Export isRedisConnected as a function returning whether the client is open
+// Export isRedisConnected as a function returning whether the client is ready for commands
 const isRedisConnected = () => {
-  return redisClient && redisClient.isOpen;
+  return redisClient && redisClient.isReady;
 };
 
 export { redisClient, connectRedis, isRedisConnected };
