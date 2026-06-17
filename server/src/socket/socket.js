@@ -306,6 +306,22 @@ export const initializeSocket = (server) => {
                         userId,
                         seenAt: new Date(),
                     });
+
+                    // Invalidate Redis caches
+                    if (isRedisConnected()) {
+                        try {
+                            const conversation = await Conversation.findById(conversationId);
+                            if (conversation) {
+                                for (const participant of conversation.participants) {
+                                    const pId = participant.user.toString();
+                                    await redisClient.del(`user:${pId}:conversations`);
+                                }
+                            }
+                            await redisClient.del(`chat:${conversationId}:messages`);
+                        } catch (redisError) {
+                            console.log("⚠️ Redis cache invalidation failed (message_seen socket):", redisError.message);
+                        }
+                    }
                 }
 
             } catch (error) {

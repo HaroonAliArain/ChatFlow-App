@@ -346,6 +346,18 @@ const markAsSeen = async (req, res, next) => {
             }
         );
 
+        if (result.modifiedCount > 0 && isRedisConnected()) {
+            try {
+                for (const participant of conversation.participants) {
+                    const pId = participant.user.toString();
+                    await redisClient.del(`user:${pId}:conversations`);
+                }
+                await redisClient.del(`chat:${conversationId}:messages`);
+            } catch (redisError) {
+                console.log("⚠️ Redis cache invalidation failed (markAsSeen API):", redisError.message);
+            }
+        }
+
         return res.status(200).json({
             success: true,
             message: "Messages marked as seen",
