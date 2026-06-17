@@ -175,7 +175,6 @@ export const useSocketStore = create((set, get) => ({
 
     // ── Connection events ──
     socket.on("connect", () => {
-      console.log("🟢 Socket connected successfully! ID:", socket.id);
       set({ isConnected: true });
     });
 
