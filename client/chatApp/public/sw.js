@@ -40,7 +40,17 @@ self.addEventListener("fetch", (e) => {
   
   e.respondWith(
     caches.match(e.request).then((cachedResponse) => {
-      return cachedResponse || fetch(e.request);
+      if (cachedResponse) {
+        return cachedResponse;
+      }
+      
+      return fetch(e.request).catch((err) => {
+        // Fallback to cached index.html for page navigation requests
+        if (e.request.mode === "navigate" || e.request.headers.get("accept")?.includes("text/html")) {
+          return caches.match("/index.html");
+        }
+        throw err;
+      });
     })
   );
 });
