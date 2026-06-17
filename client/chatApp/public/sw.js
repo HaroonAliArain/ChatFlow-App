@@ -3,6 +3,8 @@ const ASSETS = [
   "/",
   "/index.html",
   "/chatflow-logo.svg",
+  "/icon-192.png",
+  "/icon-512.png",
 ];
 
 // Install SW
