@@ -737,10 +737,22 @@ const reactToMessage = async (req, res, next) => {
             }
         }
 
-        io.to(message.conversation.toString()).emit("message_reacted", {
-            messageId: message._id,
-            reactions: message.reactions
-        });
+        // Emit reaction to online participants
+        const conversation = await Conversation.findById(message.conversation);
+        if (conversation) {
+            conversation.participants.forEach((participant) => {
+                const pId = participant.user.toString();
+                if (pId !== userId) {
+                    const socketId = userSocketMap.get(pId);
+                    if (socketId) {
+                        io.to(socketId).emit("message_reacted", {
+                            messageId: message._id,
+                            reactions: message.reactions
+                        });
+                    }
+                }
+            });
+        }
 
         res.status(200).json({
             success: true,
@@ -797,10 +809,22 @@ const removeReaction = async (req, res, next) => {
             }
         }
 
-        io.to(message.conversation.toString()).emit("message_reacted", {
-            messageId: message._id,
-            reactions: message.reactions
-        });
+        // Emit reaction removal to online participants
+        const conversation = await Conversation.findById(message.conversation);
+        if (conversation) {
+            conversation.participants.forEach((participant) => {
+                const pId = participant.user.toString();
+                if (pId !== userId) {
+                    const socketId = userSocketMap.get(pId);
+                    if (socketId) {
+                        io.to(socketId).emit("message_reacted", {
+                            messageId: message._id,
+                            reactions: message.reactions
+                        });
+                    }
+                }
+            });
+        }
 
         res.status(200).json({
             success: true,

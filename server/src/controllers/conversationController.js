@@ -197,8 +197,8 @@ const getUserConversations = async (req, res, next) => {
         .populate("lastMessage", "senderId content messageType mediaUrl isForwarded createdAt isDeleted")
         .sort({ lastMessageAt: -1 });
 
-        // Add per-user isMuted/isPinned flags to each conversation
-        const enriched = conversations.map(conv => {
+        // Add per-user isMuted/isPinned flags and dynamic unread count to each conversation
+        const enriched = await Promise.all(conversations.map(async (conv) => {
             const convObj = conv.toObject();
             const myParticipant = convObj.participants.find(
                 p => {
@@ -208,8 +208,17 @@ const getUserConversations = async (req, res, next) => {
             );
             convObj.isMuted = myParticipant?.isMuted || false;
             convObj.isPinned = myParticipant?.isPinned || false;
+
+            // Calculate unread count dynamically
+            const unreadCount = await Message.countDocuments({
+                conversation: conv._id,
+                senderId: { $ne: userId },
+                status: { $ne: "seen" }
+            });
+            convObj.unreadCount = unreadCount;
+
             return convObj;
-        });
+        }));
 
         // Sort: pinned first, then by lastMessageAt
         enriched.sort((a, b) => {
